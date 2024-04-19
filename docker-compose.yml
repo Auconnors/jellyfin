@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  haproxy:
+    image: haproxy:latest
+    restart: always
+    volumes:
+      - /etc/jellyfin/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - /etc/jellyfin/certs/:/usr/local/etc/haproxy/certs 
+    ports:
+      - "443:443"
+      - "80:80"
+    networks:
+      - internal_network
+
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    restart: always
+    volumes:
+      - /etc/jellyfin/media/:/media/:ro
+      - jellyfin_data:/config
+      - jellyfin_cache:/cache
+    expose:
+      - "8096"
+    networks:
+      - internal_network
+
+volumes:
+  jellyfin_data:
+  jellyfin_cache:
+
+networks:
+  internal_network:
+    driver: bridge
+
