@@ -14,6 +14,13 @@ confirmation_install() {
 
 confirmation_install
 confirmation_certif
+
+cd /tmp
+wget https://github.com/Auconnors/jellyfin/archive/refs/heads/main.zip
+apt install unzip -y
+unzip main.zip
+cd ./jellyfin-main
+
 echo "1. Installation de docker"
 apt install docker.io docker-compose -y
 
@@ -31,7 +38,7 @@ chmod 644 /etc/jellyfin/certs/jellyfin.crt
 chmod 644 /etc/jellyfin/certs/jellyfin.crt.key
 
 echo "4. Mise du service jellyfin"
-mv ./jellyfin.service /etc/systemd/system/
+wget -O /etc/jellyfin 
 systemctl daemon-reload 
 
 
